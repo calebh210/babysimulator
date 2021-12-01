@@ -3,7 +3,7 @@
 #include<string>
 using namespace std;
 
-int codeLine = 0;
+int fileLine = 0;
 
 /*void loadFromFile()
 {
@@ -40,7 +40,7 @@ string fetch()
     {
         while(getline(reader, line))
         {
-            codeLine++;
+            fileLine++;
             cout << line << endl;
             reader.close();
             return line;
