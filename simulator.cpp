@@ -5,6 +5,11 @@ using namespace std;
 
 int fileLine = 0;
 
+int accumulator;
+int currentInstruction;
+int presentInstruction;
+string store[32];
+
 /*void loadFromFile()
 {
     string line;
@@ -117,12 +122,18 @@ void display()
 
 int main()
 {
-    do
+    for(int i = 0; i < 32; i++)
     {
+        store[i] = "00000000000000000000000000000000";
+    }
+    cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
+
+    //do
+    //{
         fetch();
         decode();
         execute();
         display();
-    }while(decode() != 7);
+    //}while(decode() != 7);
     return 0;
 }
