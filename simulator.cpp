@@ -10,6 +10,8 @@ int currentInstruction;
 int presentInstruction;
 string store[32];
 
+int decode(string line);
+
 /*void loadFromFile()
 {
     string line;
@@ -31,7 +33,7 @@ string store[32];
     reader.close();
 }*/
 
-string fetch()
+void fetch()
 {
     string line;
     ifstream reader( "BabyTest1-MC.txt" );
@@ -47,18 +49,21 @@ string fetch()
         {
             fileLine++;
             cout << line << endl;
-            reader.close();
-            return line;
+            decode(line);
+            //reader.close();
+            //return line;
         }
     }
+
+    reader.close();
 }
 
-int decode()
+int decode(string line)
 {
     //string codeLine = "10010000000001100000000000000000";
-    string codeLine = fetch();
-    string instruction = codeLine.substr(13, 3);
-    string operand = codeLine.substr(0, 5);
+    //string codeLine = fetch();
+    string instruction = line.substr(13, 3);
+    string operand = line.substr(0, 5);
     cout << endl << instruction << endl;
     cout << operand << endl;
 
@@ -131,7 +136,7 @@ int main()
     //do
     //{
         fetch();
-        decode();
+        //decode();
         execute();
         display();
     //}while(decode() != 7);
