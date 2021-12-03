@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include "line.h"
 using namespace std;
 
 int fileLine = 0;
@@ -61,13 +62,16 @@ void fetch() //try loading file into store. fetch from there rather
 
 int decode(string line)
 {
-    //string codeLine = "10010000000001100000000000000000";
-    //string codeLine = fetch();
-    string instruction = line.substr(13, 3);
-    string operand = line.substr(0, 5);
-    cout << endl << instruction << endl;
-    cout << operand << endl;
 
+    string codeLine = "10010000000001100000000000000000";
+    Line newLine(codeLine);
+   
+    //string codeLine = fetch();
+    // string instruction = line.substr(13, 3);
+    // string operand = line.substr(0, 5);
+    cout << endl << newLine.getInstruction() << endl;
+    cout << newLine.getOperand() << endl;
+    string instruction = newLine.getInstruction();
     if(instruction == "000")
     {
         cout << "JMP" << endl;
@@ -137,7 +141,7 @@ int main()
     //do
     //{
         fetch();
-        //decode();
+        // decode();
         //execute();
         display();
     //}while(decode() != 7);
