@@ -8,7 +8,7 @@ int fileLine = 0;
 int accumulator;
 int currentInstruction;
 int presentInstruction;
-string store[32];
+string store[32]; //load file into store, then work from there.
 
 int decode(string line);
 
@@ -33,7 +33,8 @@ int decode(string line);
     reader.close();
 }*/
 
-void fetch()
+void fetch() //try loading file into store. fetch from there rather
+            //than straight from file.
 {
     string line;
     ifstream reader( "BabyTest1-MC.txt" );
@@ -114,7 +115,7 @@ int decode(string line)
     }
 }
 
-void execute()
+void execute(int instruction)
 {
     //
 }
@@ -137,7 +138,7 @@ int main()
     //{
         fetch();
         //decode();
-        execute();
+        //execute();
         display();
     //}while(decode() != 7);
     return 0;
