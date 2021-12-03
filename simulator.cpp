@@ -4,18 +4,20 @@
 #include "line.h"
 using namespace std;
 
-int fileLine = 0;
+int position = 0;
 
-int accumulator;
-int currentInstruction;
-int presentInstruction;
+int accumulator = 00000000000000000000000000000000;
+int currentInstruction = 00000000000000000000000000000000;
+int presentInstruction = 00000000000000000000000000000000;
 string store[32]; //load file into store, then work from there.
 
 int decode(string line);
 
-/*void loadFromFile()
+void loadFromFile()
 {
     string line;
+    int i = 0;
+
     ifstream reader( "BabyTest1-MC.txt" );
 
     if(! reader)
@@ -27,17 +29,19 @@ int decode(string line);
         while(getline(reader, line))
         {
             cout << line << endl;
-            codeLine++;
+            store[i] = line;
+            i++;
+            //codeLine++;
         }
     }
 
     reader.close();
-}*/
+}
 
 void fetch() //try loading file into store. fetch from there rather
             //than straight from file.
 {
-    string line;
+    /*string line;
     ifstream reader( "BabyTest1-MC.txt" );
 
     if(! reader)
@@ -57,12 +61,16 @@ void fetch() //try loading file into store. fetch from there rather
         }
     }
 
-    reader.close();
+    reader.close();*/
+
+    position++;
+    string codeLine = store[position];
+    decode(codeLine);
+    
 }
 
 int decode(string line)
 {
-
     string codeLine = "10010000000001100000000000000000";
     Line newLine(codeLine);
    
@@ -136,6 +144,9 @@ int main()
     {
         store[i] = "00000000000000000000000000000000";
     }
+    cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
+
+    loadFromFile();
     cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
 
     //do
