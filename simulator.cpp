@@ -75,47 +75,48 @@ int decode(string line)
     Line newLine(codeLine);
    
     //string codeLine = fetch();
-    // string instruction = line.substr(13, 3);
-    // string operand = line.substr(0, 5);
+    string instruction = line.substr(13, 3);
+    string operand = line.substr(0, 5);
+    newLine.setOperand(operand);
+    newLine.setInstruction(instruction);
     cout << endl << newLine.getInstruction() << endl;
     cout << newLine.getOperand() << endl;
-    string instruction = newLine.getInstruction();
-    if(instruction == "000")
+    if(newLine.getInstruction() == "000")
     {
         cout << "JMP" << endl;
         return 0;
     }
-    else if(instruction == "100")
+    else if(newLine.getInstruction() == "100")
     {
         cout << "JRP" << endl;
         return 1;
     }
-    else if(instruction == "010")
+    else if(newLine.getInstruction() == "010")
     {
         cout << "LDN" << endl;
         return 2;
     }
-    else if(instruction == "110")
+    else if(newLine.getInstruction() == "110")
     {
         cout << "STO" << endl;
         return 3;
     }
-    else if(instruction == "001")
+    else if(newLine.getInstruction() == "001")
     {
         cout << "SUB" << endl;
         return 4;
     }
-    else if(instruction == "101")
+    else if(newLine.getInstruction() == "101")
     {
         cout << "SUB" << endl;
         return 5;
     }
-    else if(instruction == "011")
+    else if(newLine.getInstruction() == "011")
     {
         cout << "CMP" << endl;
         return 6;
     }
-    else if(instruction == "111")
+    else if(newLine.getInstruction() == "111")
     {
         cout << "STP" << endl;
         return 7;
@@ -129,7 +130,63 @@ int decode(string line)
 
 void execute(int instruction)
 {
-    //
+
+    //S = contents of that store location
+    //CI= contents of control instruction
+    //A= contents of accumulator
+    if (newLine.getInstruction() == "000")
+    {
+        //JMP
+        // CI = S
+        //set Contents of control Instruction to content of Store location
+    }
+    else if (newLine.getInstruction() == "100")
+    {
+         //JRP
+         // CI = CI+S
+         //Add content of store location to contents of control instruction
+    }
+    else if (newLine.getInstruction() == "010")
+    {
+         //LDN
+         //A = -S
+         //Load accumulator with negative from store content
+    }
+    else if (newLine.getInstruction() == "110")
+    {
+         //STO
+         //S=A
+         //Copy accumulator to store location
+    }
+    else if (newLine.getInstruction() == "001")
+    {
+         //SUB
+         // A = A-S
+         // Subtract content of store location from accumulator
+    }
+    else if (newLine.getInstruction() == "101")
+    {
+         //SUB
+         // A = A-S
+         // Subtract content of store location from accumulator
+    }
+    else if (newLine.getInstruction() == "011")
+    {
+         //CMP
+         // if A<0 then CI= CI+1
+         // Increment CI if accumulator value negative, otherwise do nothing
+    }
+    else if (newLine.getInstruction() == "111")
+    {
+        //STP
+        // stop
+        // Set stop lamp to halt machine
+    }
+    else
+    {
+        cout << "Invalid instruction." << endl;
+        
+    }
 }
 
 void display()
