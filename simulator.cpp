@@ -12,6 +12,7 @@ int presentInstruction = 00000000000000000000000000000000;
 string store[32]; //load file into store, then work from there.
 
 int decode(string line);
+Line newLine();
 
 void loadFromFile()
 {
@@ -65,57 +66,66 @@ void fetch() //try loading file into store. fetch from there rather
 
     position++;
     string codeLine = store[position];
-    decode(codeLine);
+
+    string instruction = codeLine.substr(13, 3);
+    string operand = codeLine.substr(0, 5);
+    newLine.setOperand(operand);
+    newLine.setInstruction(instruction);
+    cout << endl << newLine.getInstruction() << endl;
+    cout << newLine.getOperand() << endl;
+    //decode(codeLine);
     
 }
 
-int decode(string line)
+int decode()
 {
-    string codeLine = "10010000000001100000000000000000";
-    Line newLine(codeLine);
+    //string codeLine = "10010000000001100000000000000000";
+    //Line newLine(codeLine);
+    //Line newLine(line);
    
     //string codeLine = fetch();
-    // string instruction = line.substr(13, 3);
-    // string operand = line.substr(0, 5);
+    /*string instruction = line.substr(13, 3);
+    string operand = line.substr(0, 5);
+    newLine.setOperand(operand);
+    newLine.setInstruction(instruction);
     cout << endl << newLine.getInstruction() << endl;
-    cout << newLine.getOperand() << endl;
-    string instruction = newLine.getInstruction();
-    if(instruction == "000")
+    cout << newLine.getOperand() << endl;*/
+    if(newLine.getInstruction() == "000")
     {
         cout << "JMP" << endl;
         return 0;
     }
-    else if(instruction == "100")
+    else if(newLine.getInstruction() == "100")
     {
         cout << "JRP" << endl;
         return 1;
     }
-    else if(instruction == "010")
+    else if(newLine.getInstruction() == "010")
     {
         cout << "LDN" << endl;
         return 2;
     }
-    else if(instruction == "110")
+    else if(newLine.getInstruction() == "110")
     {
         cout << "STO" << endl;
         return 3;
     }
-    else if(instruction == "001")
+    else if(newLine.getInstruction() == "001")
     {
         cout << "SUB" << endl;
         return 4;
     }
-    else if(instruction == "101")
+    else if(newLine.getInstruction() == "101")
     {
         cout << "SUB" << endl;
         return 5;
     }
-    else if(instruction == "011")
+    else if(newLine.getInstruction() == "011")
     {
         cout << "CMP" << endl;
         return 6;
     }
-    else if(instruction == "111")
+    else if(newLine.getInstruction() == "111")
     {
         cout << "STP" << endl;
         return 7;
@@ -129,7 +139,63 @@ int decode(string line)
 
 void execute(int instruction)
 {
-    //
+
+    //S = contents of that store location
+    //CI= contents of control instruction
+    //A= contents of accumulator
+    if (newLine.getInstruction() == "000")
+    {
+        //JMP
+        // CI = S
+        //set Contents of control Instruction to content of Store location
+    }
+    else if (newLine.getInstruction() == "100")
+    {
+         //JRP
+         // CI = CI+S
+         //Add content of store location to contents of control instruction
+    }
+    else if (newLine.getInstruction() == "010")
+    {
+         //LDN
+         //A = -S
+         //Load accumulator with negative from store content
+    }
+    else if (newLine.getInstruction() == "110")
+    {
+         //STO
+         //S=A
+         //Copy accumulator to store location
+    }
+    else if (newLine.getInstruction() == "001")
+    {
+         //SUB
+         // A = A-S
+         // Subtract content of store location from accumulator
+    }
+    else if (newLine.getInstruction() == "101")
+    {
+         //SUB
+         // A = A-S
+         // Subtract content of store location from accumulator
+    }
+    else if (newLine.getInstruction() == "011")
+    {
+         //CMP
+         // if A<0 then CI= CI+1
+         // Increment CI if accumulator value negative, otherwise do nothing
+    }
+    else if (newLine.getInstruction() == "111")
+    {
+        //STP
+        // stop
+        // Set stop lamp to halt machine
+    }
+    else
+    {
+        cout << "Invalid instruction." << endl;
+        
+    }
 }
 
 void display()
@@ -140,21 +206,21 @@ void display()
 
 int main()
 {
-    for(int i = 0; i < 32; i++)
+    /*for(int i = 0; i < 32; i++)
     {
         store[i] = "00000000000000000000000000000000";
     }
     cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
 
     loadFromFile();
-    cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
+    cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;*/
 
-    //do
-    //{
+    do
+    {
         fetch();
         // decode();
         //execute();
         display();
-    //}while(decode() != 7);
+    }while(decode() != 7);
     return 0;
 }

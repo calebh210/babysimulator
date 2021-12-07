@@ -11,6 +11,7 @@ private:
    string instruction;
    string operand;
 public:
+    Line();
     Line(string code);
     ~Line();
 
@@ -31,6 +32,12 @@ public:
     }
 
 };
+
+Line::Line()
+{
+    instruction = "";
+    operand = "";
+}
 
 Line::Line(string code)
 {
