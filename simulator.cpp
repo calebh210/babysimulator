@@ -3,16 +3,18 @@
 #include<string>
 #include <bits/stdc++.h>
 #include "line.h"
+#include "simulator.h"
 using namespace std;
 
 
-string accumulator = "00000000000000000000000000000000";
+int accumulator = 0;
 int controlInstruction = 0;
 string presentInstruction = "00000000000000000000000000000000";
 string store[32]; //load file into store, then work from there.
+bool stp = false;
 
-int decode(string line);
-//Line newLine;
+
+
 
 void loadFromFile()
 {
@@ -20,6 +22,7 @@ void loadFromFile()
     int i = 0;
 
     ifstream reader( "BabyTest1-MC.txt" );
+    // ifstream reader( "BabyTest2.txt" );
 
     if(! reader)
     {
@@ -39,50 +42,14 @@ void loadFromFile()
     reader.close();
 }
 
-Line fetch() //try loading file into store. fetch from there rather
-            //than straight from file.
+Line fetch() 
 {
-    /*string line;
-    ifstream reader( "BabyTest1-MC.txt" );
-
-    if(! reader)
-    {
-        cout << "Code file failed to import." << endl;
-        reader.close();
-    }
-    else
-    {
-        while(getline(reader, line))
-        {
-            fileLine++;
-            cout << line << endl;
-            decode(line);
-            //reader.close();
-            //return line;
-        }
-    }
-
-    reader.close();*/
-
-    //cout << "fetch entered" << endl;
-    //Line newLine;
-    //cout << "newLine created" << endl;
-
+    
     controlInstruction++;
-    //cout << "position incremented" << endl;
+    
     string codeLine = store[controlInstruction];
-    //cout << "codeLine loaded" << endl;
-
+    
     Line newLine(codeLine);
-
-    //string instruction = codeLine.substr(13, 3);
-    //cout << "instruction found" << endl;
-    //string operand = codeLine.substr(0, 5);
-    //cout << "operand found" << endl;
-    //newLine.setOperand(operand);
-    //cout << "operand set" << endl;
-    //newLine.setInstruction(instruction);
-    //cout << "instruction set" << endl;
 
     cout << endl << newLine.getInstruction() << endl;
     cout << newLine.getOperand() << endl;
@@ -155,90 +122,85 @@ int decode(Line &newLine)
 
 void execute(int instruction, Line &codeLine)
 {
-    //store location S
-    string n = codeLine.getOperand();
-    reverse(n.begin(), n.end());
-    int operand = stoi(n, nullptr, 2);
-    cout<< operand << endl;
-    string contents = store[operand];
-    // controlInstruction=0;
-    cout << contents << endl;
-    //cout << "contents created" << endl;
-
-    /*int storeContents = 0;
-    cout << "storeContents created" << endl;
-    storeContents = stoi(contents);
-    cout << "storeContents set" << endl;*/
-
+    //turning the operand binary into decimal
+    int operand = decimalConverter(codeLine.getOperand());
+    cout << "Operand: " << operand << endl;
+    //turning the store position into decimal 
+    int position = decimalConverter(store[operand]);
+    cout << "Position: " << position << endl;
     //CI= contents of control instruction
     //A= contents of accumulator
-    if (instruction == 0)
+    switch (instruction)
     {
-
-        controlInstruction = operand;
-        cout << "controlInstruction: " << store[controlInstruction] << endl;
-        //controlInstruction = stoi(contents);
-        //cout << controlInstruction << endl;
+    case 0:
         //JMP
         //CI = S
         //set Contents of control Instruction to content of Store location
-    }
-    else if (instruction == 1)
-    {
-        controlInstruction =  controlInstruction + operand;
-         cout << "controlInstruction: " << store[controlInstruction] << endl;
-        //controlInstruction = controlInstruction + storeContents;
+        controlInstruction = position;
+        break;
+    case 1:
          //JRP
          // CI = CI+S
          //Add content of store location to contents of control instruction
-    }
-    else if (instruction == 2)
-    {
-
+         controlInstruction = controlInstruction + position;
+        break;
+    case 2:
          //LDN
          //A = -S
          //Load accumulator with negative from store content
-    }
-    else if (instruction == 3)
-    {
-         //STO
+         accumulator = -position;
+        break;
+    case 3:
+        //STO
          //S=A
          //Copy accumulator to store location
-    }
-    else if (instruction == 4)
-    {
+         //TODO: Add way to convert from decimal to binary and store in store[operand]
+        break;
+    case 4:
+        //SUB
+         // A = A-S
+         // Subtract content of store location from accumulator
+         accumulator = accumulator - position;
+        break;
+    case 5:
          //SUB
          // A = A-S
          // Subtract content of store location from accumulator
-    }
-    else if (instruction == 5)
-    {
-         //SUB
-         // A = A-S
-         // Subtract content of store location from accumulator
-    }
-    else if (instruction == 6)
-    {
+         accumulator = accumulator - position;
+        break;
+    case 6:
          //CMP
          // if A<0 then CI= CI+1
          // Increment CI if accumulator value negative, otherwise do nothing
-    }
-    else if (instruction == 7)
-    {
+         if(accumulator < 0){
+             controlInstruction++;
+         }
+        break;
+    case 7:
         //STP
         // stop
         // Set stop lamp to halt machine
-    }
-    else
-    {
+        stp = true;
+        break;
+    default:
         cout << "Invalid instruction." << endl;
+        break;
     }
+
+}
+
+int decimalConverter(string operandCode){
+
+    reverse(operandCode.begin(), operandCode.end());
+    int operand = stoi(operandCode, nullptr, 2);
+    return operand;
 }
 
 void display()
 {
-    //int toDisplay = decode();
-    //cout << "Result: " << toDisplay << endl;
+    cout << "Accumulator:" << accumulator << endl;
+    cout << "Control Instruction: " << controlInstruction << endl;
+    
 }
 
 int main()
@@ -256,7 +218,8 @@ int main()
     //cout << "instruction created" << endl;
     Line codeLine;
     //cout << "Line created" << endl;
-    do
+    while (!stp)
+    
     {
         //cout << "loop entered" << endl;
         //fetch();
@@ -271,7 +234,7 @@ int main()
         //cout << "execute completed" << endl;
         display();
         //cout << "display completed" << endl;
-    }while(instruction != 7);
+    }
     //cout << "loop exited" << endl;
     return 0;
 }
