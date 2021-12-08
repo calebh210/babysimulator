@@ -65,21 +65,21 @@ Line fetch() //try loading file into store. fetch from there rather
     reader.close();*/
 
     //cout << "fetch entered" << endl;
-    Line newLine;
+    
     //cout << "newLine created" << endl;
 
     position++;
     //cout << "position incremented" << endl;
     string codeLine = store[position];
     //cout << "codeLine loaded" << endl;
-
-    string instruction = codeLine.substr(13, 3);
+    Line newLine(codeLine);
+    
     //cout << "instruction found" << endl;
-    string operand = codeLine.substr(0, 5);
+  
     //cout << "operand found" << endl;
-    newLine.setOperand(operand);
+
     //cout << "operand set" << endl;
-    newLine.setInstruction(instruction);
+
     //cout << "instruction set" << endl;
     cout << endl << newLine.getInstruction() << endl;
     cout << newLine.getOperand() << endl;
