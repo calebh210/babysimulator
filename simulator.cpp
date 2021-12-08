@@ -12,7 +12,7 @@ int presentInstruction = 00000000000000000000000000000000;
 string store[32]; //load file into store, then work from there.
 
 int decode(string line);
-Line newLine();
+//Line newLine;
 
 void loadFromFile()
 {
@@ -39,7 +39,7 @@ void loadFromFile()
     reader.close();
 }
 
-void fetch() //try loading file into store. fetch from there rather
+Line fetch() //try loading file into store. fetch from there rather
             //than straight from file.
 {
     /*string line;
@@ -64,20 +64,33 @@ void fetch() //try loading file into store. fetch from there rather
 
     reader.close();*/
 
+    //cout << "fetch entered" << endl;
+    Line newLine;
+    //cout << "newLine created" << endl;
+
     position++;
+    //cout << "position incremented" << endl;
     string codeLine = store[position];
+    //cout << "codeLine loaded" << endl;
 
     string instruction = codeLine.substr(13, 3);
+    //cout << "instruction found" << endl;
     string operand = codeLine.substr(0, 5);
+    //cout << "operand found" << endl;
     newLine.setOperand(operand);
+    //cout << "operand set" << endl;
     newLine.setInstruction(instruction);
+    //cout << "instruction set" << endl;
     cout << endl << newLine.getInstruction() << endl;
     cout << newLine.getOperand() << endl;
+
+    return newLine;
     //decode(codeLine);
     
 }
 
-int decode()
+int decode(Line &newLine)
+//int decode()
 {
     //string codeLine = "10010000000001100000000000000000";
     //Line newLine(codeLine);
@@ -143,49 +156,49 @@ void execute(int instruction)
     //S = contents of that store location
     //CI= contents of control instruction
     //A= contents of accumulator
-    if (newLine.getInstruction() == "000")
+    if (instruction == 0)
     {
         //JMP
         // CI = S
         //set Contents of control Instruction to content of Store location
     }
-    else if (newLine.getInstruction() == "100")
+    else if (instruction == 1)
     {
          //JRP
          // CI = CI+S
          //Add content of store location to contents of control instruction
     }
-    else if (newLine.getInstruction() == "010")
+    else if (instruction == 2)
     {
          //LDN
          //A = -S
          //Load accumulator with negative from store content
     }
-    else if (newLine.getInstruction() == "110")
+    else if (instruction == 3)
     {
          //STO
          //S=A
          //Copy accumulator to store location
     }
-    else if (newLine.getInstruction() == "001")
+    else if (instruction == 4)
     {
          //SUB
          // A = A-S
          // Subtract content of store location from accumulator
     }
-    else if (newLine.getInstruction() == "101")
+    else if (instruction == 5)
     {
          //SUB
          // A = A-S
          // Subtract content of store location from accumulator
     }
-    else if (newLine.getInstruction() == "011")
+    else if (instruction == 6)
     {
          //CMP
          // if A<0 then CI= CI+1
          // Increment CI if accumulator value negative, otherwise do nothing
     }
-    else if (newLine.getInstruction() == "111")
+    else if (instruction == 7)
     {
         //STP
         // stop
@@ -194,7 +207,6 @@ void execute(int instruction)
     else
     {
         cout << "Invalid instruction." << endl;
-        
     }
 }
 
@@ -210,17 +222,31 @@ int main()
     {
         store[i] = "00000000000000000000000000000000";
     }
-    cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
-
-    loadFromFile();
     cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;*/
 
+    loadFromFile();
+    //cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
+    
+    int instruction;
+    //cout << "instruction created" << endl;
+    Line codeLine;
+    //cout << "Line created" << endl;
     do
     {
-        fetch();
-        // decode();
-        //execute();
+        //cout << "loop entered" << endl;
+        //fetch();
+        codeLine = fetch();
+        //cout << "fetch completed" << endl;
+        instruction = decode(codeLine);
+        //cout << "decode completed" << endl;
+
+        //fetch();
+        //instruction = decode();
+        execute(instruction);
+        //cout << "execute completed" << endl;
         display();
-    }while(decode() != 7);
+        //cout << "display completed" << endl;
+    }while(instruction != 7);
+    //cout << "loop exited" << endl;
     return 0;
 }
