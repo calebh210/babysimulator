@@ -158,7 +158,8 @@ void execute(int instruction, Line &codeLine)
          //Copy accumulator to store location
          //TODO: Add way to convert from decimal to binary and store in store[operand]
          cout << endl << "Accumulator test " << accumulator << endl;
-         toStore = binaryConverter(accumulator);
+         //toStore = binaryConverter(accumulator);
+         toStore = toBinary(accumulator);
          store[position] = toStore;
         break;
     case 4:
@@ -220,6 +221,22 @@ string binaryConverter(int toConvert)
     return converted;
 }
 
+//alternative binary converter adapted from https://stackoverflow.com/q/22746429
+string toBinary(int n)
+{
+    string r;
+    cout << "alternative entered" << endl;
+    if (n == 0)
+    {
+        cout << "returning 0" << endl;
+        return "0";
+    }
+
+    while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
+    cout << "Alternative binary test: " << endl;
+    return r;
+}
+
 void display()
 {
     cout << "Accumulator:" << accumulator << endl;
@@ -229,6 +246,12 @@ void display()
 
 int main()
 {
+    int test = 1646;
+    string test1result = binaryConverter(test);
+    cout << "Testing binary converter: " << test1result << endl;
+    string test2result = toBinary(test);
+    cout << "Testing alternative binary converter: " << test2result << endl;
+
     for(int i = 0; i < 32; i++)
     {
         store[i] = "00000000000000000000000000000000";
