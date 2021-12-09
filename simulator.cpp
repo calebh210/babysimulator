@@ -156,11 +156,9 @@ void execute(int instruction, Line &codeLine)
         //STO
          //S=A
          //Copy accumulator to store location
-         //TODO: Add way to convert from decimal to binary and store in store[operand]
-         cout << endl << "Accumulator test " << accumulator << endl;
-         //toStore = binaryConverter(accumulator);
-         toStore = toBinary(accumulator);
-         store[position] = toStore;
+         //cout << endl << "Accumulator test " << accumulator << endl;
+         toStore = binaryConverter(accumulator);
+         store[operand] = toStore;
         break;
     case 4:
         //SUB
@@ -202,38 +200,21 @@ int decimalConverter(string operandCode){
     return operand;
 }
 
-// code for the following function adapted from https://www.programiz.com/cpp-programming/examples/binary-decimal-convert
-string binaryConverter(int toConvert)
-{
-    long long bin = 0;
-    int rem, i = 1;
-
-    while (toConvert!=0)
-    {
-        rem = toConvert % 2;
-        toConvert /= 2;
-        bin += rem * i;
-        i *= 10;
-    }
-    cout << "Binary test: " << bin << endl;
-    string converted = to_string(bin);
-    cout << converted << endl << endl;
-    return converted;
-}
-
-//alternative binary converter adapted from https://stackoverflow.com/q/22746429
-string toBinary(int n)
+//code for the following function adapted from https://stackoverflow.com/q/22746429
+string binaryConverter(int n)
 {
     string r;
-    cout << "alternative entered" << endl;
+    //cout << "converter entered" << endl;
     if (n == 0)
     {
-        cout << "returning 0" << endl;
+        //cout << "returning 0" << endl;
         return "0";
     }
 
     while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
-    cout << "Alternative binary test: " << endl;
+    //cout << "binary test: " << r << endl;
+    reverse(r.begin(), r.end());
+    //cout << "Reversed: " << r << endl;
     return r;
 }
 
@@ -246,11 +227,9 @@ void display()
 
 int main()
 {
-    int test = 1646;
+    /*int test = 1646;
     string test1result = binaryConverter(test);
-    cout << "Testing binary converter: " << test1result << endl;
-    string test2result = toBinary(test);
-    cout << "Testing alternative binary converter: " << test2result << endl;
+    cout << "Testing binary converter: " << test1result << endl;*/
 
     for(int i = 0; i < 32; i++)
     {
