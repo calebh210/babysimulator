@@ -128,6 +128,8 @@ void execute(int instruction, Line &codeLine)
     //turning the store position into decimal 
     int position = decimalConverter(store[operand]);
     cout << "Position: " << position << endl;
+    //declaring toStore variable for the STO instruction.
+    string toStore;
     //CI= contents of control instruction
     //A= contents of accumulator
     switch (instruction)
@@ -155,6 +157,9 @@ void execute(int instruction, Line &codeLine)
          //S=A
          //Copy accumulator to store location
          //TODO: Add way to convert from decimal to binary and store in store[operand]
+         cout << endl << "Accumulator test " << accumulator << endl;
+         toStore = binaryConverter(accumulator);
+         store[position] = toStore;
         break;
     case 4:
         //SUB
@@ -194,6 +199,25 @@ int decimalConverter(string operandCode){
     reverse(operandCode.begin(), operandCode.end());
     int operand = stoi(operandCode, nullptr, 2);
     return operand;
+}
+
+// code for the following function adapted from https://www.programiz.com/cpp-programming/examples/binary-decimal-convert
+string binaryConverter(int toConvert)
+{
+    long long bin = 0;
+    int rem, i = 1;
+
+    while (toConvert!=0)
+    {
+        rem = toConvert % 2;
+        toConvert /= 2;
+        bin += rem * i;
+        i *= 10;
+    }
+    cout << "Binary test: " << bin << endl;
+    string converted = to_string(bin);
+    cout << converted << endl << endl;
+    return converted;
 }
 
 void display()

@@ -8,5 +8,8 @@ int decode(string line);
 //converts the string binary operand to decimal
 int decimalConverter(string operandCode);
 
+//converts a decimal integer to a binary string
+string binaryConverter(int toConvert);
+
 //displays some useful values
 void display();
