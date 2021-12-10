@@ -41,7 +41,7 @@ Line::Line()
 
 Line::Line(string code)
 {
-    instruction = code.substr(13, 3);
+    instruction = code.substr(13, 4);
     operand = code.substr(0, 5);
 }
 

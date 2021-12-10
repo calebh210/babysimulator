@@ -59,51 +59,62 @@ Line fetch()
 }
 
 int decode(Line &newLine)
-//int decode()
+//instructions have been extended to a 4bit number
 {
     
    
-    if(newLine.getInstruction() == "000")
+    if(newLine.getInstruction() == "0000")
     {
         cout << "JMP" << endl;
         return 0;
     }
-    else if(newLine.getInstruction() == "100")
+    else if(newLine.getInstruction() == "1000")
     {
         cout << "JRP" << endl;
         return 1;
     }
-    else if(newLine.getInstruction() == "010")
+    else if(newLine.getInstruction() == "0100")
     {
         cout << "LDN" << endl;
         return 2;
     }
-    else if(newLine.getInstruction() == "110")
+    else if(newLine.getInstruction() == "1100")
     {
         cout << "STO" << endl;
         return 3;
     }
-    else if(newLine.getInstruction() == "001")
+    else if(newLine.getInstruction() == "0010")
     {
         cout << "SUB" << endl;
         return 4;
     }
-    else if(newLine.getInstruction() == "101")
+    else if(newLine.getInstruction() == "1010")
     {
         cout << "SUB" << endl;
         return 5;
     }
-    else if(newLine.getInstruction() == "011")
+    else if(newLine.getInstruction() == "0110")
     {
         cout << "CMP" << endl;
         return 6;
     }
-    else if(newLine.getInstruction() == "111")
+    else if(newLine.getInstruction() == "1001")
     {
-        cout << "STP" << endl;
+        //added instruction, A = S
+        cout << "LDS" << endl;
         return 7;
     }
-    else
+     else if(newLine.getInstruction() == "1011")
+    {   
+        //added instruction, A + S
+        cout << "ADD" << endl;
+        return 8;
+    }
+    else if(newLine.getInstruction() == "1110")
+    {
+        cout << "STP" << endl;
+        return 9;
+    }else
     {
         cout << "Invalid instruction." << endl;
         return -1;
@@ -171,6 +182,14 @@ void execute(int instruction, Line &codeLine)
          }
         break;
     case 7:
+        //A = S
+        accumulator = position;
+        break;
+    case 8:
+        // A = A + S
+        accumulator = accumulator + position;
+        break;
+    case 9:
         //STP
         // stop
         // Set stop lamp to halt machine
