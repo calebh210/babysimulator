@@ -67,53 +67,65 @@ int decode(Line &newLine)
 {
     
    
-    if(newLine.getInstruction() == "000")
+    if(newLine.getInstruction() == "0000")
     {
         presentInstruction = "00000000000000000000000000000000";
         cout << "JMP" << endl;
         return 0;
     }
-    else if(newLine.getInstruction() == "100")
+    else if(newLine.getInstruction() == "1000")
     {
         presentInstruction = "10000000000000000000000000000000";
         cout << "JRP" << endl;
         return 1;
     }
-    else if(newLine.getInstruction() == "010")
+    else if(newLine.getInstruction() == "0100")
     {
         presentInstruction = "01000000000000000000000000000000";
         cout << "LDN" << endl;
         return 2;
     }
-    else if(newLine.getInstruction() == "110")
+    else if(newLine.getInstruction() == "1100")
     {
         presentInstruction = "11000000000000000000000000000000";
         cout << "STO" << endl;
         return 3;
     }
-    else if(newLine.getInstruction() == "001")
+    else if(newLine.getInstruction() == "0010")
     {
         presentInstruction = "00100000000000000000000000000000";
         cout << "SUB" << endl;
         return 4;
     }
-    else if(newLine.getInstruction() == "101")
+    else if(newLine.getInstruction() == "1010")
     {
         presentInstruction = "10100000000000000000000000000000";
         cout << "SUB" << endl;
         return 5;
     }
-    else if(newLine.getInstruction() == "011")
+    else if(newLine.getInstruction() == "0110")
     {
         presentInstruction = "01100000000000000000000000000000";
         cout << "CMP" << endl;
         return 6;
     }
-    else if(newLine.getInstruction() == "111")
+    else if(newLine.getInstruction() == "1110")
     {
         presentInstruction = "11100000000000000000000000000000";
         cout << "STP" << endl;
         return 7;
+    }
+    else if(newLine.getInstruction() == "0001")
+    {
+        //added instruction, A = S
+        cout << "LDS" << endl;
+        return 8;
+    }
+    else if(newLine.getInstruction() == "1001")
+    {   
+        //added instruction, A + S
+        cout << "ADD" << endl;
+        return 9;
     }
     else
     {
@@ -187,6 +199,14 @@ void execute(int instruction, Line &codeLine)
         // stop
         // Set stop lamp to halt machine
         stp = true;
+        break;
+    case 8:
+        //A = S
+        accumulator = position;
+        break;
+    case 9:
+        // A = A + S
+        accumulator = accumulator + position;
         break;
     default:
         cout << "Invalid instruction." << endl;
