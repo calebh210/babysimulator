@@ -2,13 +2,12 @@
 //Simulator Team: Caleb Harmon, Luca Zen, Sandy Steuart Fothringham
 //File Authors: Caleb Harmon, Luca Zen
 
-//add class for line 
-//getter and setter for operand and instructions
 #include<iostream>
 #include<fstream>
 #include<string>
 using namespace std;
 
+//definitions for the Line class.
 class Line
 {
 private:
@@ -37,6 +36,7 @@ public:
 
 };
 
+//function definitions for the Line class.
 Line::Line()
 {
     instruction = "";

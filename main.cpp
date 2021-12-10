@@ -1,6 +1,6 @@
 //Group 10: Caleb Harmon, Daniel Nagy, Jerry Deligiannis, Lewis McLean, Luca Zen, & Sandy Steuart Fothringham
 //Simulator Team: Caleb Harmon, Luca Zen, Sandy Steuart Fothringham
-//File Authors: Caleb Harmon
+//File Authors: Caleb Harmon, Sandy Steuart Fothringham
 
 #include "simulator.cpp"
 #include <string>
@@ -10,14 +10,11 @@ void runSamples();
 
 
 int main(){
-    //add test programs
-    //test 5+3
-    //test
 
     int choice;
     while (choice != 3)
     {
-        //menu option
+        //menu options
         cout << "1. Run Manchester Baby Simulator (Choosing own file)" << endl;
         cout << "2. Run Sample Program" << endl;
         cout << "3. Exit " << endl;
@@ -36,7 +33,7 @@ int main(){
             break;
         case 3:
             cout << "Exiting..." << endl;
-            abort();
+            return 0;
             break;
 
         default:
@@ -50,7 +47,8 @@ int main(){
     }
   
 }
-       
+
+//chooses a file for the simulator to run
 void fileInput(){
     int check = 1;
     string fileName;
@@ -73,6 +71,7 @@ void fileInput(){
         }
     }
 
+//Lists available sample programs for the simulator to run.
 void runSamples(){
     int choice;
     cout << "Choose a sample program to run (End result shown in accumulator)" << endl;

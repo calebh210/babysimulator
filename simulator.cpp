@@ -10,16 +10,16 @@
 #include "simulator.h"
 using namespace std;
 
-
+//setting up registers and other required variables.
 int accumulator = 0;
 int controlInstruction = 0;
 string presentInstruction = "00000000000000000000000000000000";
-string store[32]; //load file into store, then work from there.
+string store[32];
 bool stp = false;
 
 
 
-
+//loads a chosen file into the store.
 void loadFromFile(string fileName)
 {
     string line;
@@ -39,13 +39,13 @@ void loadFromFile(string fileName)
             cout << line << endl;
             store[i] = line;
             i++;
-            //codeLine++;
         }
     }
 
     reader.close();
 }
 
+//fetches an instruction from the store.
 Line fetch() 
 {
 
@@ -58,12 +58,10 @@ Line fetch()
     cout << newLine.getOperand() << endl;
 
     return newLine;
-    //decode(codeLine);
-    
 }
 
+//decodes the fetched instruction.
 int decode(Line &newLine)
-//int decode()
 {
     
    
@@ -134,69 +132,52 @@ int decode(Line &newLine)
     }
 }
 
+//executes the decoded instruction.
 void execute(int instruction, Line &codeLine)
 {
     //turning the operand binary into decimal
     int operand = decimalConverter(codeLine.getOperand());
-    // cout << "Operand: " << operand << endl;
+    
     //turning the store position into decimal 
     int position = decimalConverter(store[operand]);
-    // cout << "Position: " << position << endl;
+    
     //declaring toStore variable for the STO instruction.
     string toStore;
-    //CI= contents of control instruction
-    //A= contents of accumulator
+
     switch (instruction)
     {
     case 0:
-        //JMP
-        //CI = S
         //set Contents of control Instruction to content of Store location
         controlInstruction = position;
         break;
     case 1:
-         //JRP
-         // CI = CI+S
          //Add content of store location to contents of control instruction
          controlInstruction = controlInstruction + position;
         break;
     case 2:
-         //LDN
-         //A = -S
          //Load accumulator with negative from store content
          accumulator = -position;
         break;
     case 3:
-        //STO
-         //S=A
          //Copy accumulator to store location
-         //cout << endl << "Accumulator test " << accumulator << endl;
          toStore = binaryConverter(accumulator);
          store[operand] = toStore;
         break;
     case 4:
-        //SUB
-         // A = A-S
          // Subtract content of store location from accumulator
          accumulator = accumulator - position;
         break;
     case 5:
-         //SUB
-         // A = A-S
          // Subtract content of store location from accumulator
          accumulator = accumulator - position;
         break;
     case 6:
-         //CMP
-         // if A<0 then CI= CI+1
          // Increment CI if accumulator value negative, otherwise do nothing
          if(accumulator < 0){
              controlInstruction++;
          }
         break;
     case 7:
-        //STP
-        // stop
         // Set stop lamp to halt machine
         stp = true;
         break;
@@ -215,6 +196,7 @@ void execute(int instruction, Line &codeLine)
 
 }
 
+//function to convert a binary string to a decimal integer. Used to help with the execute function.
 int decimalConverter(string binary){
 
     bool flipSign = false;
@@ -236,7 +218,8 @@ int decimalConverter(string binary){
     return dec;
 }
 
-//code for the following function adapted from https://stackoverflow.com/q/22746429
+//converts a decimal integer to a binary string. Used to help with the execute function.
+//code for the function adapted from https://stackoverflow.com/q/22746429
 string binaryConverter(int n)
 {
     string r;
@@ -273,6 +256,7 @@ string binaryConverter(int n)
     return r;
 }
 
+//display the contents of the registers and memory.
 void display()
 {
     string aOutput = binaryConverter(accumulator);
@@ -284,6 +268,7 @@ void display()
     
 }
 
+//display the contents of the store.
 void displayStore()
 {
     for (int i = 0; i < 32; i++)
@@ -293,6 +278,7 @@ void displayStore()
     
 }
 
+//initialise the store.
 void initStore(){
 
      for(int i = 0; i < 32; i++)
@@ -301,39 +287,18 @@ void initStore(){
     }
 }
 
-
+//runs the simulator.
 int run()
-{
-    /*int test = 1646;
-    string test1result = binaryConverter(test);
-    cout << "Testing binary converter: " << test1result << endl;*/
-
-    //cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
-
-    //cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
-    
+{    
     int instruction;
-    //cout << "instruction created" << endl;
     Line codeLine;
-    //cout << "Line created" << endl;
     while (!stp)
     
     {
-        //cout << "loop entered" << endl;
-        //fetch();
         codeLine = fetch();
-        //cout << "fetch completed" << endl;
         instruction = decode(codeLine);
-        //cout << "decode completed" << endl;
-
-        //fetch();
-        //instruction = decode();
         execute(instruction, codeLine);
-        //cout << "execute completed" << endl;
         display();
-        //cout << "display completed" << endl;
-    }
-    //cout << "loop exited" << endl;
-    
+    }    
     return 0;
 }
