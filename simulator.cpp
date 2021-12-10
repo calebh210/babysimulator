@@ -222,8 +222,10 @@ string binaryConverter(int n)
 
 void display()
 {
-    cout << "Accumulator:" << accumulator << endl;
-    cout << "Control Instruction: " << controlInstruction << endl;
+    string aOutput = binaryConverter(accumulator);
+    string ciOutput = binaryConverter(controlInstruction);
+    cout << "Accumulator:" << aOutput << endl;
+    cout << "Control Instruction: " << ciOutput << endl;
     cout << "Present Instruction: " << presentInstruction << endl;
     
 }
