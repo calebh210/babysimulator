@@ -1,3 +1,7 @@
+//Group 10: Caleb Harmon, Daniel Nagy, Jerry Deligiannis, Lewis McLean, Luca Zen, & Sandy Steuart Fothringham
+//Simulator Team: Caleb Harmon, Luca Zen, Sandy Steuart Fothringham
+//File Authors: Caleb Harmon, Luca Zen, Sandy Steuart Fothringham
+
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -59,62 +63,71 @@ Line fetch()
 }
 
 int decode(Line &newLine)
-//instructions have been extended to a 4bit number
+//int decode()
 {
     
    
     if(newLine.getInstruction() == "0000")
     {
+        presentInstruction = "00000000000000000000000000000000";
         cout << "JMP" << endl;
         return 0;
     }
     else if(newLine.getInstruction() == "1000")
     {
+        presentInstruction = "10000000000000000000000000000000";
         cout << "JRP" << endl;
         return 1;
     }
     else if(newLine.getInstruction() == "0100")
     {
+        presentInstruction = "01000000000000000000000000000000";
         cout << "LDN" << endl;
         return 2;
     }
     else if(newLine.getInstruction() == "1100")
     {
+        presentInstruction = "11000000000000000000000000000000";
         cout << "STO" << endl;
         return 3;
     }
     else if(newLine.getInstruction() == "0010")
     {
+        presentInstruction = "00100000000000000000000000000000";
         cout << "SUB" << endl;
         return 4;
     }
     else if(newLine.getInstruction() == "1010")
     {
+        presentInstruction = "10100000000000000000000000000000";
         cout << "SUB" << endl;
         return 5;
     }
     else if(newLine.getInstruction() == "0110")
     {
+        presentInstruction = "01100000000000000000000000000000";
         cout << "CMP" << endl;
         return 6;
     }
-    else if(newLine.getInstruction() == "1001")
+    else if(newLine.getInstruction() == "1110")
+    {
+        presentInstruction = "11100000000000000000000000000000";
+        cout << "STP" << endl;
+        return 7;
+    }
+    else if(newLine.getInstruction() == "0001")
     {
         //added instruction, A = S
         cout << "LDS" << endl;
-        return 7;
+        return 8;
     }
-     else if(newLine.getInstruction() == "1011")
+    else if(newLine.getInstruction() == "1001")
     {   
         //added instruction, A + S
         cout << "ADD" << endl;
-        return 8;
-    }
-    else if(newLine.getInstruction() == "1110")
-    {
-        cout << "STP" << endl;
         return 9;
-    }else
+    }
+    else
     {
         cout << "Invalid instruction." << endl;
         return -1;
@@ -182,18 +195,18 @@ void execute(int instruction, Line &codeLine)
          }
         break;
     case 7:
-        //A = S
-        accumulator = position;
-        break;
-    case 8:
-        // A = A + S
-        accumulator = accumulator + position;
-        break;
-    case 9:
         //STP
         // stop
         // Set stop lamp to halt machine
         stp = true;
+        break;
+    case 8:
+        //A = S
+        accumulator = position;
+        break;
+    case 9:
+        // A = A + S
+        accumulator = accumulator + position;
         break;
     default:
         cout << "Invalid instruction." << endl;
@@ -229,8 +242,11 @@ string binaryConverter(int n)
 
 void display()
 {
-    cout << "Accumulator:" << accumulator << endl;
-    cout << "Control Instruction: " << controlInstruction << endl;
+    string aOutput = binaryConverter(accumulator);
+    string ciOutput = binaryConverter(controlInstruction);
+    cout << "Accumulator:" << aOutput << endl;
+    cout << "Control Instruction: " << ciOutput << endl;
+    cout << "Present Instruction: " << presentInstruction << endl;
     
 }
 
