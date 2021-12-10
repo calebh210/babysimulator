@@ -69,41 +69,49 @@ int decode(Line &newLine)
    
     if(newLine.getInstruction() == "000")
     {
+        presentInstruction = "00000000000000000000000000000000";
         cout << "JMP" << endl;
         return 0;
     }
     else if(newLine.getInstruction() == "100")
     {
+        presentInstruction = "10000000000000000000000000000000";
         cout << "JRP" << endl;
         return 1;
     }
     else if(newLine.getInstruction() == "010")
     {
+        presentInstruction = "01000000000000000000000000000000";
         cout << "LDN" << endl;
         return 2;
     }
     else if(newLine.getInstruction() == "110")
     {
+        presentInstruction = "11000000000000000000000000000000";
         cout << "STO" << endl;
         return 3;
     }
     else if(newLine.getInstruction() == "001")
     {
+        presentInstruction = "00100000000000000000000000000000";
         cout << "SUB" << endl;
         return 4;
     }
     else if(newLine.getInstruction() == "101")
     {
+        presentInstruction = "10100000000000000000000000000000";
         cout << "SUB" << endl;
         return 5;
     }
     else if(newLine.getInstruction() == "011")
     {
+        presentInstruction = "01100000000000000000000000000000";
         cout << "CMP" << endl;
         return 6;
     }
     else if(newLine.getInstruction() == "111")
     {
+        presentInstruction = "11100000000000000000000000000000";
         cout << "STP" << endl;
         return 7;
     }
@@ -216,6 +224,7 @@ void display()
 {
     cout << "Accumulator:" << accumulator << endl;
     cout << "Control Instruction: " << controlInstruction << endl;
+    cout << "Present Instruction: " << presentInstruction << endl;
     
 }
 
