@@ -202,11 +202,26 @@ void execute(int instruction, Line &codeLine)
 
 }
 
-int decimalConverter(string operandCode){
+int decimalConverter(string binary){
 
-    reverse(operandCode.begin(), operandCode.end());
-    int operand = stoi(operandCode, nullptr, 2);
-    return operand;
+    bool flipSign = false;
+    string toConvert = binary.substr(0,30);
+    if(binary[binary.length() - 1] == '1'){
+
+        flipSign = true;
+    }
+
+    reverse(toConvert.begin(), toConvert.end());
+    int dec = stoi(toConvert, nullptr, 2);
+
+    cout << "Test Dec" << dec << endl;
+
+    if(flipSign == true){
+        dec = -dec;
+        cout << "flipped";
+    }
+
+    return dec;
 }
 
 //code for the following function adapted from https://stackoverflow.com/q/22746429
@@ -220,10 +235,49 @@ string binaryConverter(int n)
         return "0";
     }
 
-    while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
+    //this is the "add one" part
+    // if(n < 0){
+    //     n++;
+    // }
+
+    long decimal = abs(n);
+    long val;
+    int i = 0;
+    while (i < 32)
+    {
+        val = decimal % 2;
+        decimal = decimal/2;
+
+        if(i < 32-1){
+            if (val == 0){
+
+                r += "0";
+
+            }else if (val == 1){
+
+                r += "1";
+
+            }
+        } else {
+            if (n < 0){
+                r += "1";
+            }else{
+                r += "0";
+            }
+        }
+        i++;
+    }
+    
+    // while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
     //cout << "binary test: " << r << endl;
-    reverse(r.begin(), r.end());
-    //cout << "Reversed: " << r << endl;
+   
+    //negation of the bits i.e. "bit flip"
+    // if(n < 0){
+    //     n = ~n;
+    // }
+
+    // reverse(r.begin(), r.end());
+    cout << "Reversed: " << r << endl;
     return r;
 }
 
