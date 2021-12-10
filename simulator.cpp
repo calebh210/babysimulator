@@ -138,10 +138,10 @@ void execute(int instruction, Line &codeLine)
 {
     //turning the operand binary into decimal
     int operand = decimalConverter(codeLine.getOperand());
-    cout << "Operand: " << operand << endl;
+    // cout << "Operand: " << operand << endl;
     //turning the store position into decimal 
     int position = decimalConverter(store[operand]);
-    cout << "Position: " << position << endl;
+    // cout << "Position: " << position << endl;
     //declaring toStore variable for the STO instruction.
     string toStore;
     //CI= contents of control instruction
@@ -269,7 +269,6 @@ string binaryConverter(int n)
         i++;
     }
     
-    // reverse(r.begin(), r.end());
    
     return r;
 }
@@ -281,6 +280,7 @@ void display()
     cout << "Accumulator:" << aOutput << endl;
     cout << "Control Instruction: " << ciOutput << endl;
     cout << "Present Instruction: " << presentInstruction << endl;
+    displayStore();
     
 }
 
@@ -334,6 +334,6 @@ int run()
         //cout << "display completed" << endl;
     }
     //cout << "loop exited" << endl;
-    // displayStore();
+    
     return 0;
 }

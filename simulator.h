@@ -18,6 +18,9 @@ string binaryConverter(int n);
 //displays some useful values
 void display();
 
+//displays the store
+void displayStore();
+
 //adapted from stackoverflow https://stackoverflow.com/questions/46292764/check-for-file-existence-in-c-without-creating-file
 bool exists (const string& fileName) {
     ifstream f(fileName.c_str());
