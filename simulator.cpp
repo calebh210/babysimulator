@@ -16,17 +16,17 @@ bool stp = false;
 
 
 
-void loadFromFile()
+void loadFromFile(string fileName)
 {
     string line;
     int i = 0;
 
-    ifstream reader( "BabyTest1-MC.txt" );
-    // ifstream reader( "BabyTest2.txt" );
-
+    ifstream reader( fileName );
+    
     if(! reader)
     {
         cout << "Code file failed to import." << endl;
+        
     }
     else
     {
@@ -44,9 +44,8 @@ void loadFromFile()
 
 Line fetch() 
 {
-    
+
     controlInstruction++;
-    
     string codeLine = store[controlInstruction];
     
     Line newLine(codeLine);
@@ -62,17 +61,8 @@ Line fetch()
 int decode(Line &newLine)
 //int decode()
 {
-    //string codeLine = "10010000000001100000000000000000";
-    //Line newLine(codeLine);
-    //Line newLine(line);
+    
    
-    //string codeLine = fetch();
-    /*string instruction = line.substr(13, 3);
-    string operand = line.substr(0, 5);
-    newLine.setOperand(operand);
-    newLine.setInstruction(instruction);
-    cout << endl << newLine.getInstruction() << endl;
-    cout << newLine.getOperand() << endl;*/
     if(newLine.getInstruction() == "000")
     {
         cout << "JMP" << endl;
@@ -225,19 +215,32 @@ void display()
     
 }
 
-int main()
+void displayStore()
+{
+    for (int i = 0; i < 32; i++)
+    {
+        cout << store[i] << endl;
+    }
+    
+}
+
+void initStore(){
+
+     for(int i = 0; i < 32; i++)
+    {
+        store[i] = "00000000000000000000000000000000";
+    }
+}
+
+
+int run()
 {
     /*int test = 1646;
     string test1result = binaryConverter(test);
     cout << "Testing binary converter: " << test1result << endl;*/
 
-    for(int i = 0; i < 32; i++)
-    {
-        store[i] = "00000000000000000000000000000000";
-    }
     //cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
 
-    loadFromFile();
     //cout << "store test:" << endl << "Position 0: " << store[0] << endl << "Position 5: " << store[5] << endl << "Position 8: " << store[8] << endl << "Position 16: " << store[16] << endl << "Position 31: " << store[31] << endl << "Position 32 (out of range): " << store[32] << endl;
     
     int instruction;
@@ -262,5 +265,6 @@ int main()
         //cout << "display completed" << endl;
     }
     //cout << "loop exited" << endl;
+    // displayStore();
     return 0;
 }
