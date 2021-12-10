@@ -26,11 +26,7 @@ int main(){
         string yorn;
         cout << "Program Successfully Ran, would you like to output the store? (y/n)" << endl;
         cin >> yorn;
-        if(yorn == "y"){
-            displayStore();
-        }
-        else if(yorn == "Y")
-        {
+        if(yorn == "y"||yorn == "Y"){
             displayStore();
         }
     }
