@@ -10,6 +10,7 @@ int main(){
     //add test programs
     //test 5+3
     //test
+
     bool exit = false;
     int check = 1;
     string fileName;
@@ -29,7 +30,7 @@ int main(){
         string yorn;
         cout << "Program Successfully Ran, would you like to output the store? (y/n)" << endl;
         cin >> yorn;
-        if(yorn == "y"|| yorn == "Y"){
+        if(yorn == "y"||yorn == "Y"){
             displayStore();
         }
     }
